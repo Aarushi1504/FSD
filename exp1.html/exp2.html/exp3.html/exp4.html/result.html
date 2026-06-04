@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input {
+            padding: 8px;
+            margin: 8px;
+            width: 60%;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Student Result Calculator</h2>
+
+        <label>Enter Number of Subjects:</label><br>
+        <input type="number" id="subjectCount" min="1"><br>
+
+        <button onclick="takeMarks()">Submit</button>
+
+        <div id="marksInput"></div>
+
+        <button onclick="calculateResult()">Calculate Result</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let subjectCount = 0;
+
+        function takeMarks() {
+            subjectCount = parseInt(document.getElementById("subjectCount").value);
+
+            let marksInputDiv = document.getElementById("marksInput");
+            marksInputDiv.innerHTML = "";
+
+            if (isNaN(subjectCount) || subjectCount <= 0) {
+                alert("Please enter a valid number of subjects");
+                return;
+            }
+
+            for (let i = 1; i <= subjectCount; i++) {
+                marksInputDiv.innerHTML += `
+                    <input type="number" id="mark${i}" placeholder="Enter marks for Subject ${i}" min="0" max="100">
+                    <br>
+                `;
+            }
+        }
+
+        function calculateResult() {
+            let total = 0;
+
+            for (let i = 1; i <= subjectCount; i++) {
+                let mark = parseFloat(document.getElementById(`mark${i}`).value);
+
+                if (isNaN(mark)) {
+                    alert("Please enter marks for all subjects.");
+                    return;
+                }
+
+                total += mark;
+            }
+
+            let average = total / subjectCount;
+
+            let grade;
+            let result;
+
+            if (average >= 75) {
+                grade = "A";
+                result = "Pass";
+            } else if (average >= 60) {
+                grade = "B";
+                result = "Pass";
+            } else if (average >= 40) {
+                grade = "C";
+                result = "Pass";
+            } else {
+                grade = "D";
+                result = "Fail";
+            }
+
+            document.getElementById("result").innerHTML = `
+                <p>Total Marks: ${total}</p>
+                <p>Average Marks: ${average.toFixed(2)}</p>
+                <p>Grade: ${grade}</p>
+                <p>Result: ${result}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
